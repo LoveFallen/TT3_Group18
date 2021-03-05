@@ -64,26 +64,23 @@ def register(request):
 
 
 def asset(request):
-    myAccount = User.objects.get(username=request.GET['username'])
+    myAccount = User.objects.get(username=request.user)
     # API function here
 
 
     # Return Json for Now
-    pass
+    return JsonResponse({})
 
 def transaction(request):
-    myAccount = User.objects.get(username=request.GET['username'])
+    myAccount = User.objects.get(username=request.user)
     # API function here
 
 
     # Return Json for Now
-    pass
+    return JsonResponse({})
 
 def accKey(request):
     myAccount = User.objects.get(username=request.user)
-
-    #print(vars(myAccount))
-    print(myAccount.accountKey)
 
     return JsonResponse({
         'accountKey': myAccount.accountKey
