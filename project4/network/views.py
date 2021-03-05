@@ -57,7 +57,7 @@ def asset(request):
     })
 
 def transaction(request):
-
+    
     myAccount = User.objects.get(username=request.user)
 
     # API Function
@@ -66,14 +66,13 @@ def transaction(request):
         'x-api-key': 'rcqYXzQ9PY1rQtUNJB9X56JOvnQWnf27S09nX8Rh',
         'Content-Type': 'application/json',
     }
-    payload = {
+    payload={
         'accountKey': myAccount.accountKey
     }
-
-    data = json.loads(
-        r.post(transaction_url, headers=headers, json=payload).content)
-
-    return render(request, "network/transaction_history.html", {
+    
+    data = json.loads(r.post(transaction_url, headers=headers, json = payload).content)
+    
+    return render(request, "network/transaction_history.html",{
         'assets': data,
         'user': myAccount,
     })
@@ -88,56 +87,20 @@ def accKey(request):
 
 
 def profile(request):
-    myAccount = User.objects.get(username=request.user)
-
-    asset_url = 'https://849rs099m3.execute-api.ap-southeast-1.amazonaws.com/techtrek/balance'
-    headers = {
-        'x-api-key': 'rcqYXzQ9PY1rQtUNJB9X56JOvnQWnf27S09nX8Rh',
-        'Content-Type': 'application/json',
-    }
-    payload = {
-        'accountKey': "a84a59b3-7023-4ffa-a0d6-e8c34478a06a",
-    }
-
-    balance = json.loads(r.post(asset_url, headers=headers, json=payload).content)
-    # keys:
-    # - assetBalance
-    # - cashBalance
-
-    return render(request, "network/profile.html", {
-        'user': myAccount,
-        'balance': balance,
+    return JsonResponse({
+        'msg': 'Get Profile',
     })
-    
 
 
 def buy(request):
     myAccount = User.objects.get(username=request.user)
     
-    history_url = 'https://849rs099m3.execute-api.ap-southeast-1.amazonaws.com/techtrek/pricing/historical'
-    headers = {
-        'x-api-key': 'rcqYXzQ9PY1rQtUNJB9X56JOvnQWnf27S09nX8Rh',
-        'Content-Type': 'application/json',
-    }
-    
-    lastPrice = json.loads(r.post(history_url, headers=headers).content)[0]['price']
-
     return render(request, "network/buy_asset.html",{
-        'lastPrice': lastPrice
     })
 
 
 def sell(request):
     myAccount = User.objects.get(username=request.user)
     
-    history_url = 'https://849rs099m3.execute-api.ap-southeast-1.amazonaws.com/techtrek/pricing/historical'
-    headers = {
-        'x-api-key': 'rcqYXzQ9PY1rQtUNJB9X56JOvnQWnf27S09nX8Rh',
-        'Content-Type': 'application/json',
-    }
-    
-    lastPrice = json.loads(r.post(history_url, headers=headers).content)[0]['price']
-    
     return render(request, "network/sell_asset.html",{
-        'lastPrice': lastPrice
     })
