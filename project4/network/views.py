@@ -43,12 +43,12 @@ def asset(request):
     myAccount = User.objects.get(username=request.user)
     # API function here
 
-
     # Return Json for Now
     return JsonResponse({})
 
+
 def transaction(request):
-    
+
     myAccount = User.objects.get(username=request.user)
 
     # API Function
@@ -57,13 +57,14 @@ def transaction(request):
         'x-api-key': 'rcqYXzQ9PY1rQtUNJB9X56JOvnQWnf27S09nX8Rh',
         'Content-Type': 'application/json',
     }
-    payload={
+    payload = {
         'accountKey': myAccount.accountKey
     }
-    
-    data = json.loads(r.post(transaction_url, headers=headers, json = payload).content)
-    
-    return render(request, "network/transaction_history.html",{
+
+    data = json.loads(
+        r.post(transaction_url, headers=headers, json=payload).content)
+
+    return render(request, "network/transaction_history.html", {
         'assets': data,
         'user': myAccount,
     })
@@ -78,20 +79,21 @@ def accKey(request):
 
 
 def profile(request):
-    return JsonResponse({
-        'msg': 'Get Profile',
+    myAccount = User.objects.get(username=request.user)
+    return render(request, "network/profile.html", {
+        'user': myAccount,
     })
 
 
 def buy(request):
     myAccount = User.objects.get(username=request.user)
-    
-    return render(request, "network/buy_asset.html",{
+
+    return render(request, "network/buy_asset.html", {
     })
 
 
 def sell(request):
     myAccount = User.objects.get(username=request.user)
-    
-    return render(request, "network/sell_asset.html",{
+
+    return render(request, "network/sell_asset.html", {
     })

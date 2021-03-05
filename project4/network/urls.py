@@ -10,7 +10,7 @@ urlpatterns = [
     path("asset", views.asset, name="asset"),
     path("transaction", views.transaction, name="transaction"),
     path('accountKey', views.accKey, name="accKey"),
-    path("profile/<str:username>", views.profile, name="profile"),
+    path("profile", views.profile, name="profile"),
 
     path("buy", views.buy, name="buy"),
     path("sell", views.sell, name="sell"),
