@@ -61,3 +61,20 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "network/register.html")
+
+
+def asset(request):
+    myAccount = User.objects.get(username=request.GET['username']
+    # API function here
+
+
+    # Return Json for Now
+    pass
+
+def transaction(request):
+    myAccount = User.objects.get(username=request.GET['username']
+    # API function here
+
+
+    # Return Json for Now
+    pass
