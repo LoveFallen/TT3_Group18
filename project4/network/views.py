@@ -45,17 +45,19 @@ def asset(request):
     myAccount = User.objects.get(username=request.user)
 
     # API Function
-    transaction_url = 'https://849rs099m3.execute-api.ap-southeast-1.amazonaws.com/techtrek/historical'
+    history_url = 'https://849rs099m3.execute-api.ap-southeast-1.amazonaws.com/techtrek/pricing/historical'
     headers = {
         'x-api-key': 'rcqYXzQ9PY1rQtUNJB9X56JOvnQWnf27S09nX8Rh',
         'Content-Type': 'application/json',
     }
 
-    data = json.loads(r.post(transaction_url, headers=headers).content)
-
+    data = json.loads(r.post(history_url, headers=headers).content)
+    for item in data:
+        item['timestamp'] = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(int(item['timestamp'])))
     return render(request, "network/asset.html", {
         'historicals': data,
         'user': myAccount,
+        'assets':data[-1],
     })
 
 
