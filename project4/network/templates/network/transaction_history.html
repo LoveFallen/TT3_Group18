@@ -6,18 +6,16 @@
 </head>
 <body>
 <div class="row">
-    <centre><h1>Profile</h1></centre>
-    <centre class="bidder"><div class="profile">
+    <h1>History</h1><br />
+    <div class="profile">
     <div class="info">
         <p>Name: {{ user.username }} </p>
     </centre>
-    <br />
 </div>
 <br>
-<div class="row">
-    <centre><h1>History</h1></centre><br />
-      <div class="container">
-
+<h1>History</h1><br />
+    <!-- split -->
+    <div class="container">
   {% for asset in assets %}
   <div class="newrow">
     <div class="col-sm-6" style="background-color:#DCC7AA;">
