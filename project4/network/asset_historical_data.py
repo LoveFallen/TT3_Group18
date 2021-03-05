@@ -20,7 +20,7 @@ data_raw = json.loads(r.post(history_url, headers=headers).content)
 assetSymbol=(data_raw[0]['assetSymbol'])
 price_data=[]
 time_data=[]
-for i in range(0,len(data)):
+for i in range(0,len(data_raw)):
     price_data.append(data_raw[i]['price'])
     temp=datetime.datetime.fromtimestamp(data_raw[i]['timestamp'])
     time_data.append(temp)
