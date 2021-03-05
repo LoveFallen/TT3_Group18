@@ -119,62 +119,69 @@ def profile(request):
 def buy(request):
     myAccount = User.objects.get(username=request.user)
 
-    history_url = 'https://849rs099m3.execute-api.ap-southeast-1.amazonaws.com/techtrek/pricing/historical'
-    headers = {
-        'x-api-key': 'rcqYXzQ9PY1rQtUNJB9X56JOvnQWnf27S09nX8Rh',
-        'Content-Type': 'application/json',
-    }
-    
-    lastPrice = json.loads(r.post(history_url, headers=headers).content)
+    if request.method == "POST":
+        return transaction(request)
+    else:
+        history_url = 'https://849rs099m3.execute-api.ap-southeast-1.amazonaws.com/techtrek/pricing/historical'
+        headers = {
+            'x-api-key': 'rcqYXzQ9PY1rQtUNJB9X56JOvnQWnf27S09nX8Rh',
+            'Content-Type': 'application/json',
+        }
+        
+        lastPrice = json.loads(r.post(history_url, headers=headers).content)
 
-    return render(request, "network/buy_asset.html",{
-        'assetName': 'TTK',
-        'lastPrice': lastPrice[0]['price'],
-    })
+        return render(request, "network/buy_asset.html",{
+            'assetName': 'TTK',
+            'lastPrice': lastPrice[0]['price'],
+        })
 
 
 def sell(request):
     myAccount = User.objects.get(username=request.user)
 
-    history_url = 'https://849rs099m3.execute-api.ap-southeast-1.amazonaws.com/techtrek/pricing/historical'
-    headers = {
-        'x-api-key': 'rcqYXzQ9PY1rQtUNJB9X56JOvnQWnf27S09nX8Rh',
-        'Content-Type': 'application/json',
-    }
-    
-    lastPrice = json.loads(r.post(history_url, headers=headers).content)
-    
-    return render(request, "network/sell_asset.html",{
-        'assetName': 'TTK',
-        'lastPrice': lastPrice[0]['price'],
-    })
+    if request.method == "POST":
+        return transaction(request)
+    else:
+        history_url = 'https://849rs099m3.execute-api.ap-southeast-1.amazonaws.com/techtrek/pricing/historical'
+        headers = {
+            'x-api-key': 'rcqYXzQ9PY1rQtUNJB9X56JOvnQWnf27S09nX8Rh',
+            'Content-Type': 'application/json',
+        }
+        
+        lastPrice = json.loads(r.post(history_url, headers=headers).content)
+        
+        return render(request, "network/sell_asset.html",{
+            'assetName': 'TTK',
+            'lastPrice': lastPrice[0]['price'],
+        })
 
 @csrf_exempt
 def api_buysell(request):
     if request.method == "POST":
 
         myAccount = User.objects.get(username=request.user)
+        data = json.loads(request.body)
+
+        print(data)
         
-        # action = request.POST["action"]
-
-        # print(action)
-
-        myAccount = User.objects.get(username=request.user)
-
-        # API Function
-        transaction_url = 'https://849rs099m3.execute-api.ap-southeast-1.amazonaws.com/techtrek/transactions/view'
         headers = {
             'x-api-key': 'rcqYXzQ9PY1rQtUNJB9X56JOvnQWnf27S09nX8Rh',
             'Content-Type': 'application/json',
         }
         payload = {
-            'accountKey': myAccount.accountKey
+            'accountKey': myAccount.accountKey,
+            'assetAmount': data['amount'],
         }
+        
+        buysell_url = 'https://849rs099m3.execute-api.ap-southeast-1.amazonaws.com/techtrek/transactions/add'
+        
+        if data['action'] == 'Confirm Purchase':
+            print('Buying...')
+            payload['orderType'] = 'BUY'
+            resp = r.post(buysell_url, headers=headers, json=payload).content
+        else:
+            print('Selling...')
+            payload['orderType'] = 'SELL'
+            resp = r.post(buysell_url, headers=headers, json=payload).content
 
-        data = json.loads(
-            r.post(transaction_url, headers=headers, json=payload).content)
-
-        return render(request, "network/transaction_history.html", {
-            'assets': data,
-            'user': myAccount,
-        })
+        return JsonResponse(json.loads(resp))

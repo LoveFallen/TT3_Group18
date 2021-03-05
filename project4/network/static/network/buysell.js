@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
   
     document.querySelectorAll('#buysell').forEach(elem => {
         elem.addEventListener('click', function () {
-            buyandsell(elem);
+            buyandsell(elem.parentNode);
             // alert(elem.parentNode.querySelector('.name').textContent);
         });
     })
@@ -10,16 +10,12 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
 function buyandsell(elem) {
-    alert(elem.value);
     fetch('/api/buysell', {
         method : 'POST',
         body : JSON.stringify({
-            action: elem.value,
+            action: elem.querySelector('#buysell').value,
+            amount: elem.querySelector('#formFileSm').value,
         })
     })
     .then(response => response.json())
-    .then(result => {
-        // Print results
-        console.log(result);
-    })
 }

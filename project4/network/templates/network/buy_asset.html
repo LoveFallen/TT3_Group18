@@ -17,7 +17,7 @@
                 {% csrf_token %}
                 <label for="formFileSm" class="form-label">Purchase asset:</label><br>
                 <input class="form-control-sm" id="formFileSm" type="text" placeholder="Enter amount of assets you want to purchase" />
-                <input class="btn btn-secondary btn-sm" id="buysell" type="submit" value="Confirm Purchase">
+                <input class="btn btn-secondary btn-sm" href="{% url 'api_buysell' %}" id="buysell" type="submit" value="Confirm Purchase">
             </form>
             
           </div>
