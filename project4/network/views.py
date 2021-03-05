@@ -3,7 +3,7 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
-
+import time
 import requests as r
 import json
 
@@ -64,6 +64,8 @@ def transaction(request):
     data = json.loads(
         r.post(transaction_url, headers=headers, json=payload).content)
 
+    for item in data:
+        item['timestamp']=time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(item['timestamp']))
     return render(request, "network/transaction_history.html", {
         'assets': data,
         'user': myAccount,
@@ -99,18 +101,18 @@ def profile(request):
         'user': myAccount,
         'balance': balance,
     })
-    
+
 
 
 def buy(request):
     myAccount = User.objects.get(username=request.user)
-    
+
     history_url = 'https://849rs099m3.execute-api.ap-southeast-1.amazonaws.com/techtrek/pricing/historical'
     headers = {
         'x-api-key': 'rcqYXzQ9PY1rQtUNJB9X56JOvnQWnf27S09nX8Rh',
         'Content-Type': 'application/json',
     }
-    
+
     lastPrice = json.loads(r.post(history_url, headers=headers).content)[0]['price']
 
     return render(request, "network/buy_asset.html",{
@@ -120,15 +122,15 @@ def buy(request):
 
 def sell(request):
     myAccount = User.objects.get(username=request.user)
-    
+
     history_url = 'https://849rs099m3.execute-api.ap-southeast-1.amazonaws.com/techtrek/pricing/historical'
     headers = {
         'x-api-key': 'rcqYXzQ9PY1rQtUNJB9X56JOvnQWnf27S09nX8Rh',
         'Content-Type': 'application/json',
     }
-    
+
     lastPrice = json.loads(r.post(history_url, headers=headers).content)[0]['price']
-    
+
     return render(request, "network/sell_asset.html",{
         'lastPrice': lastPrice
     })
