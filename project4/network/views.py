@@ -3,12 +3,9 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
-<<<<<<< HEAD
 from django.views.decorators.csrf import csrf_exempt
 
-=======
 import time
->>>>>>> 26fd9f46e404958785ba1b8e4d90083b03ec054b
 import requests as r
 import json
 
