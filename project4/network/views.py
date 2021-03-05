@@ -1,8 +1,11 @@
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
+
+import requests as r
+import json
 
 from .models import User
 
@@ -61,3 +64,47 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "network/register.html")
+
+
+def asset(request):
+    myAccount = User.objects.get(username=request.user)
+    # API function here
+
+
+    # Return Json for Now
+    return JsonResponse({})
+
+def transaction(request):
+    
+    myAccount = User.objects.get(username=request.user)
+
+    # API Function
+    transaction_url = 'https://849rs099m3.execute-api.ap-southeast-1.amazonaws.com/techtrek/transactions/view'
+    headers = {
+        'x-api-key': 'rcqYXzQ9PY1rQtUNJB9X56JOvnQWnf27S09nX8Rh',
+        'Content-Type': 'application/json',
+    }
+    payload={
+        'accountKey': myAccount.accountKey
+    }
+    
+    data = json.loads(r.post(transaction_url, headers=headers, json = payload).content)
+    
+    return render(request, "network/transaction_history.html",{
+        'assets': data,
+        'user': myAccount,
+    })
+
+
+def accKey(request):
+    myAccount = User.objects.get(username=request.user)
+
+    return JsonResponse({
+        'accountKey': myAccount.accountKey
+    })
+
+
+def profile(request):
+    return JsonResponse({
+        'msg': 'Get Profile',
+    })
