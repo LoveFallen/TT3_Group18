@@ -3,7 +3,7 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
-
+import requests as r
 from .models import User
 
 
@@ -62,18 +62,21 @@ def register(request):
         return render(request, "network/register.html")
 
 
-def asset(request):
-    myAccount = User.objects.get(username=request.GET['username']
+def profile(request):
+    myAccount = User.objects.get(username=request.GET['username'])
     # API function here
-
+    return
 
     # Return Json for Now
-    pass
 
 def transaction(request):
-    myAccount = User.objects.get(username=request.GET['username']
+    try:
+        accountKey = User.objects.get(username=request.GET['username'])
+    except ObjectDoesNotExist:
+        return render(request, "network/register.html")
     # API function here
-    accountKey = User.objects.get(username="Group18")
+    accountKey = "a84a59b3-7023-4ffa-a0d6-e8c34478a06a"
+
     transaction_url = 'https://849rs099m3.execute-api.ap-southeast-1.amazonaws.com/techtrek/transactions/view'
     headers = {
         'x-api-key': 'rcqYXzQ9PY1rQtUNJB9X56JOvnQWnf27S09nX8Rh',
@@ -84,5 +87,5 @@ def transaction(request):
     }
     #data = json.loads(r.post(transaction_url, headers=headers, json = payload).content)
     data = json.loads(r.post(transaction_url, headers=headers, json = payload).content)
-    return data
+    return render(request, "network/register.html",{'assets':data})
     # Return Json for Now
