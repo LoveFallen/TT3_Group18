@@ -24,6 +24,7 @@ for i in range(0,len(data)):
     temp=datetime.datetime.fromtimestamp(data_raw[i]['timestamp'])
     time_data.append(temp)
 
+
 #putting into pandas
 pd.to_datetime(time_data)
 temp_dic={'datetime':time_data,'price':price_data}
