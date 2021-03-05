@@ -50,14 +50,14 @@ def asset(request):
         'x-api-key': 'rcqYXzQ9PY1rQtUNJB9X56JOvnQWnf27S09nX8Rh',
         'Content-Type': 'application/json',
     }
-    
-    data = json.loads(r.post(transaction_url, headers=headers, json = payload).content)
-    
-    return render(request, "network/historical_pricing.html",{
-        'historical_price': data,
+
+    data = json.loads(r.post(transaction_url, headers=headers).content)
+
+    return render(request, "network/asset.html", {
+        'historicals': data,
         'user': myAccount,
     })
-    
+
 
 def transaction(request):
 
@@ -77,7 +77,8 @@ def transaction(request):
         r.post(transaction_url, headers=headers, json=payload).content)
 
     for item in data:
-        item['timestamp']=time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(item['timestamp']))
+        item['timestamp'] = time.strftime(
+            '%Y-%m-%d %H:%M:%S', time.localtime(item['timestamp']))
     return render(request, "network/transaction_history.html", {
         'assets': data,
         'user': myAccount,
@@ -104,7 +105,8 @@ def profile(request):
         'accountKey': "a84a59b3-7023-4ffa-a0d6-e8c34478a06a",
     }
 
-    balance = json.loads(r.post(asset_url, headers=headers, json=payload).content)
+    balance = json.loads(
+        r.post(asset_url, headers=headers, json=payload).content)
     # keys:
     # - assetBalance
     # - cashBalance
@@ -115,7 +117,6 @@ def profile(request):
     })
 
 
-
 def buy(request):
     myAccount = User.objects.get(username=request.user)
 
@@ -124,10 +125,10 @@ def buy(request):
         'x-api-key': 'rcqYXzQ9PY1rQtUNJB9X56JOvnQWnf27S09nX8Rh',
         'Content-Type': 'application/json',
     }
-    
+
     lastPrice = json.loads(r.post(history_url, headers=headers).content)
 
-    return render(request, "network/buy_asset.html",{
+    return render(request, "network/buy_asset.html", {
         'assetName': 'TTK',
         'lastPrice': lastPrice[0]['price'],
     })
@@ -141,20 +142,21 @@ def sell(request):
         'x-api-key': 'rcqYXzQ9PY1rQtUNJB9X56JOvnQWnf27S09nX8Rh',
         'Content-Type': 'application/json',
     }
-    
+
     lastPrice = json.loads(r.post(history_url, headers=headers).content)
-    
-    return render(request, "network/sell_asset.html",{
+
+    return render(request, "network/sell_asset.html", {
         'assetName': 'TTK',
         'lastPrice': lastPrice[0]['price'],
     })
+
 
 @csrf_exempt
 def api_buysell(request):
     if request.method == "POST":
 
         myAccount = User.objects.get(username=request.user)
-        
+
         # action = request.POST["action"]
 
         # print(action)
