@@ -33,13 +33,24 @@ df=pd.DataFrame(temp_dic)
 df=df.set_index('datetime')
 
 #SMA
-######################Set SMA Cycles here#######################
-cycles=1
+#Retrieving user input for Simple Moving Average Calc (min, hour days etc.)
+minute=0
+hour=1
+days=0
+
+#Calc cycles
+cycles=(days*60+hour)*60+minute
 
 #initialise storage
 cleandata_mean_SMA=[]
+df['SMA']=df.rolling(window=cycles).mean()
 
-cleandata_mean_SMA=df['price'].rolling(window=cycles).mean()
-
-cleandata_mean_SMA
-cleandata_mean_SMA.head(50)
+# Plot day and average resampled time series together
+fig, full_plot = plt.subplots(figsize=(20,10))
+full_plot.plot(df['price'], marker='.', linestyle='-', linewidth=0.5, label=assetSymbol +' Historical Data')
+full_plot.plot(df['SMA'], marker='o', markersize=3, linestyle='-', label='Simple Moving Average Resample')
+full_plot.set_ylabel('Price')
+full_plot.set_xlabel('Time')
+title='Digital Asset: ' + assetSymbol
+full_plot.set_title(title)
+full_plot.legend();
