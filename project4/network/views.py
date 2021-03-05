@@ -43,11 +43,21 @@ def logout_view(request):
 
 def asset(request):
     myAccount = User.objects.get(username=request.user)
-    # API function here
 
-    # Return Json for Now
-    return JsonResponse({})
-
+    # API Function
+    transaction_url = 'https://849rs099m3.execute-api.ap-southeast-1.amazonaws.com/techtrek/historical'
+    headers = {
+        'x-api-key': 'rcqYXzQ9PY1rQtUNJB9X56JOvnQWnf27S09nX8Rh',
+        'Content-Type': 'application/json',
+    }
+    
+    data = json.loads(r.post(transaction_url, headers=headers, json = payload).content)
+    
+    return render(request, "network/historical_pricing.html",{
+        'historical_price': data,
+        'user': myAccount,
+    })
+    
 
 def transaction(request):
 
