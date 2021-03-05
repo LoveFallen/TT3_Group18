@@ -3,6 +3,7 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
+from django.views.decorators.csrf import csrf_exempt
 
 import requests as r
 import json
@@ -111,10 +112,11 @@ def buy(request):
         'Content-Type': 'application/json',
     }
     
-    lastPrice = json.loads(r.post(history_url, headers=headers).content)[0]['price']
+    lastPrice = json.loads(r.post(history_url, headers=headers).content)
 
     return render(request, "network/buy_asset.html",{
-        'lastPrice': lastPrice
+        'assetName': 'TTK',
+        'lastPrice': lastPrice[0]['price'],
     })
 
 
@@ -127,8 +129,39 @@ def sell(request):
         'Content-Type': 'application/json',
     }
     
-    lastPrice = json.loads(r.post(history_url, headers=headers).content)[0]['price']
+    lastPrice = json.loads(r.post(history_url, headers=headers).content)
     
     return render(request, "network/sell_asset.html",{
-        'lastPrice': lastPrice
+        'assetName': 'TTK',
+        'lastPrice': lastPrice[0]['price'],
     })
+
+@csrf_exempt
+def api_buysell(request):
+    if request.method == "POST":
+
+        myAccount = User.objects.get(username=request.user)
+        
+        # action = request.POST["action"]
+
+        # print(action)
+
+        myAccount = User.objects.get(username=request.user)
+
+        # API Function
+        transaction_url = 'https://849rs099m3.execute-api.ap-southeast-1.amazonaws.com/techtrek/transactions/view'
+        headers = {
+            'x-api-key': 'rcqYXzQ9PY1rQtUNJB9X56JOvnQWnf27S09nX8Rh',
+            'Content-Type': 'application/json',
+        }
+        payload = {
+            'accountKey': myAccount.accountKey
+        }
+
+        data = json.loads(
+            r.post(transaction_url, headers=headers, json=payload).content)
+
+        return render(request, "network/transaction_history.html", {
+            'assets': data,
+            'user': myAccount,
+        })

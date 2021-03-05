@@ -1,4 +1,5 @@
 {% extends "network/layout.html" %}
+{% load static %}
 
 {% block body %}
 
@@ -8,16 +9,15 @@
         <div class="row no-gutters">
           <div class="col-md-8">
             <div class="card-body">
-                <h5 class="card-title" id="asset_name"> Asset you want to purchase: {{asset.name}} </h5>
-                <p class="card-text"> Price: {{asset.price}}</p>
-                <p class="card-text"> Current Assets of this type owned: {{asset.count}} </p>
+                <h5 class="card-title" id="asset_name"> Asset you want to purchase: {{assetName}} </h5>
+                <p class="card-text"> Price: {{lastPrice}}</p>
             </div>
 
-            <form method="post" enctype="multipart/form-data" id="upload_pic" class="create_form"> 
+            <form method="post" enctype="multipart/form-data" class="create_form"> 
                 {% csrf_token %}
                 <label for="formFileSm" class="form-label">Purchase asset:</label><br>
                 <input class="form-control-sm" id="formFileSm" type="text" placeholder="Enter amount of assets you want to purchase" />
-                <input class="btn btn-secondary btn-sm" type="submit" value="Confirm Purchase">
+                <input class="btn btn-secondary btn-sm" id="buysell" type="submit" value="Confirm Purchase">
             </form>
             
           </div>
@@ -25,5 +25,7 @@
       </div>
 
 </div>
+
+<script src="{% static 'network/buysell.js' %}"></script>
 
 {% endblock %}
