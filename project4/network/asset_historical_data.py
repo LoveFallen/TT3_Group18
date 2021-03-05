@@ -6,14 +6,15 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 
-asset_url='https://849rs099m3.execute-api.ap-southeast-1.amazonaws.com/techtrek/balance'
+history_url = 'https://849rs099m3.execute-api.ap-southeast-1.amazonaws.com/techtrek/pricing/historical'
 
-headers={
-    'x-api-key':'rcqYXzQ9PY1rQtUNJB9X56JOvnQWnf27S09nX8Rh',
+headers = {
+    'x-api-key': 'rcqYXzQ9PY1rQtUNJB9X56JOvnQWnf27S09nX8Rh',
     'Content-Type': 'application/json',
 }
 
-data_raw=json.loads(r.post(history_url,headers=headers).content)
+
+data_raw = json.loads(r.post(history_url, headers=headers).content)
 
 #sorting data
 assetSymbol=(data_raw[0]['assetSymbol'])
