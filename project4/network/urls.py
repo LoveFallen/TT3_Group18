@@ -10,4 +10,5 @@ urlpatterns = [
     path("register", views.register, name="register"),
     path("asset", views.asset, name="asset"),
     path("transaction", views.transaction, name="transaction"),
+    path('accountKey', views.accKey, name="accKey"),
 ]

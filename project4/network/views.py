@@ -1,6 +1,6 @@
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
 
@@ -64,7 +64,7 @@ def register(request):
 
 
 def asset(request):
-    myAccount = User.objects.get(username=request.GET['username']
+    myAccount = User.objects.get(username=request.GET['username'])
     # API function here
 
 
@@ -72,9 +72,19 @@ def asset(request):
     pass
 
 def transaction(request):
-    myAccount = User.objects.get(username=request.GET['username']
+    myAccount = User.objects.get(username=request.GET['username'])
     # API function here
 
 
     # Return Json for Now
     pass
+
+def accKey(request):
+    myAccount = User.objects.get(username=request.user)
+
+    #print(vars(myAccount))
+    print(myAccount.accountKey)
+
+    return JsonResponse({
+        'accountKey': myAccount.accountKey
+    })
