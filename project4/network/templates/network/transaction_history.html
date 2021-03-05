@@ -7,9 +7,9 @@
 <body>
 <div class="row">
     <centre><h1>Profile</h1></centre>
-    <centre class="bidder"><div class="profile"><img src="/images/default.jpg"></div>
+    <centre class="bidder"><div class="profile">
     <div class="info">
-        <h1>Name: {{user.username}}</h1>
+        <p>Name: {{ user.username }} </p>
     </centre>
     <br />
 </div>
@@ -23,21 +23,21 @@
     <div class="col-sm-6" style="background-color:#DCC7AA;">
         <div class="combine"><div class="transactionhistory"></div>
         <div class="transaction">
-            <p>Transaction ID: {{ asset.transactionId }}</p>
-            <p>Order Type: {{ asset.orderType }}</p>
-            <p>Time Stamp: {{ asset.timestamp }}</p>
-            <p>Asset Symbol: {{ asset.assetSymbol }}</p>
-            <p>Asset Amount: {{ asset.assetAmount }}</p>
-            <p>Asset Price: {{ asset.assetPrice }}</p>
-            <p>Cash Amount: {{ asset.cashAmount }}</p>
-            </div></div>
+        <table style="width:100%">
+            <tr>
+                <th>Transaction ID: {{ asset.transactionId }}</th>
+                <th>Order Type: {{ asset.orderType }}</th>
+                <th>Time Stamp: {{ asset.timestamp }}</th>
+                <th>Asset Symbol: {{ asset.assetSymbol }}</th>
+                <th>Asset Amount: {{ asset.assetAmount }}</th>
+                <th>Asset Price: {{ asset.assetPrice }}</th>
+                <th>Cash Amount: {{ asset.cashAmount }}</th>
+            </tr>
+        </table>
+        </div></div>
     </div>
   </div>
   {% endfor %}
 
+
 </div>  
-
-</div>
-</body>
-
-{% endblock %}
