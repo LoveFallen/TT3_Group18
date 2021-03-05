@@ -19,12 +19,12 @@
                         <a class="nav-link" href="#"><strong>Welcome {{ user.username }} !</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/profile/{{user.username}}"><strong> {{ user.username }}'s Profile</strong></a>
+                        <a class="nav-link" href="/profile"><strong> {{ user.username }}'s Profile</strong></a>
                     </li>
                 {% endif %}
                 {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Following</a>
+                        <a class="nav-link" href="/transaction">Transactions</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
