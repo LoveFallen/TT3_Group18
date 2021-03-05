@@ -17,20 +17,24 @@
 <div class="row">
     <centre><h1>History</h1></centre><br />
       <div class="container">
+
+  {% for asset in assets %}
   <div class="newrow">
     <div class="col-sm-6" style="background-color:#DCC7AA;">
         <div class="combine"><div class="transactionhistory"></div>
         <div class="transaction">
-            <p>Transaction ID</p>
-            <p>Order Type</p>
-            <p>Time Stamp</p>
-            <p>Asset Symbol</p>
-            <p>Asset Amount:</p>
-            <p>Asset Price</p>
-            <p>Cash Amount:</p>
+            <p>Transaction ID: {{ asset.transactionId }}</p>
+            <p>Order Type: {{ asset.orderType }}</p>
+            <p>Time Stamp: {{ asset.timestamp }}</p>
+            <p>Asset Symbol: {{ asset.assetSymbol }}</p>
+            <p>Asset Amount: {{ asset.assetAmount }}</p>
+            <p>Asset Price: {{ asset.assetPrice }}</p>
+            <p>Cash Amount: {{ asset.cashAmount }}</p>
             </div></div>
     </div>
   </div>
+  {% endfor %}
+
 </div>  
 
 </div>
