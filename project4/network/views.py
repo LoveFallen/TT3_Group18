@@ -133,7 +133,7 @@ def buy(request):
 
         return render(request, "network/buy_asset.html",{
             'assetName': 'TTK',
-            'lastPrice': lastPrice[0]['price'],
+            'lastPrice': 1#lastPrice[0]['price'],
         })
 
 
@@ -153,7 +153,7 @@ def sell(request):
         
         return render(request, "network/sell_asset.html",{
             'assetName': 'TTK',
-            'lastPrice': lastPrice[0]['price'],
+            'lastPrice': 1#lastPrice[0]['price'],
         })
 
 
