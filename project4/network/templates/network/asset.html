@@ -2,7 +2,7 @@
 
 {% block body %}
 <head>
-    <title>Asset</title>  
+    <title>Asset</title>
 </head>
 <div class="card mb-3 text-center mx-auto" style="max-width: 70%;">
     <div class="row no-gutters">
@@ -10,9 +10,9 @@
         <div class="card-body">
             <p class="card-text"> Asset Symbol: {{ assets.assetSymbol}} </p>
             <p class="card-text"> Time Stamp: {{ assets.timestamp }}</p>
-            <p class="card-text"> Asset Price: {{ assets.assetPrice }}</p>
+            <p class="card-text"> Asset Price: {{ assets.price }}</p>
         </div>
-        
+
       </div>
     </div>
 </div>
@@ -29,7 +29,7 @@
       <tr>
         <th scope="row"> {{ historical.timestamp }}</th>
         <td>{{ historical.assetSymbol }}</td>
-        <td>{{ historical.assetPrice }}</td>
+        <td>{{ historical.price }}</td>
       </tr>
       {% endfor %}
 
