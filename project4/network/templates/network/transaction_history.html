@@ -1,0 +1,42 @@
+{% extends "network/layout.html" %}
+
+{% block body %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>View transaction</title>  
+</head>
+<body>
+<div class="row">
+    <centre><h1>Profile</h1></centre>
+    <centre class="bidder"><div class="profile"><img src="/images/default.jpg"></div>
+    <div class="info">
+        <p>Name</p>
+    </centre>
+    <br />
+</div>
+<br>
+<div class="row">
+    <centre><h1>History</h1></centre><br />
+      <div class="container">
+  <div class="newrow">
+    <div class="col-sm-6" style="background-color:#DCC7AA;">
+        <div class="combine"><div class="transactionhistory"></div>
+        <div class="transaction">
+            <p>Transaction ID</p>
+            <p>Order Type</p>
+            <p>Time Stamp</p>
+            <p>Asset Symbol</p>
+            <p>Asset Amount:</p>
+            <p>Asset Price</p>
+            <p>Cash Amount:</p>
+            </div></div>
+    </div>
+  </div>
+</div>  
+
+</div>
+</body>
+</html>
+
+{% endblock %}
