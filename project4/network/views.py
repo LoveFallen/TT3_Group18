@@ -56,7 +56,6 @@ def asset(request):
         'user': myAccount,
     })
 
-
 def transaction(request):
 
     myAccount = User.objects.get(username=request.user)
