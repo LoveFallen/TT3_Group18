@@ -19,28 +19,18 @@
       </div>
     </div>
 </div>
-<div class="row no-gutters">
-    <h1>Wallet Balance</h1><br />
-    <!-- split -->
-      <div class="container">
-  <div class="newrow">
-    <div class="col-sm-6" style="background-color:#DCC7AA;">
-        <div class="combine"><div class="assetbalance"></div>
-        <div class="assetinfo">
-            <p>Asset Balance: {{ balance.assetBalance }}</p>
-            </div></div>
-    </div>
-    <div class="col-sm-6" style="background-color:#DCC7AA;">
-      <div class="combine"><div class="cashbalance"></div>
-        <div class="casginfo">
-            <p>Cash Balance: {{ balance.cashBalance }}</p>
-            </div></div>
-    </div>
-  </div>
-</div>  
 
-    <!--may auto-add when got multiple pets -->
+
+<div class="card mb-3 text-center mx-auto" style="width: 18rem;">
+  <div class="card-header">
+    Wallet Balance
+  </div>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">Asset Balance: {{ balance.assetBalance }}</li>
+    <li class="list-group-item">Cash Balance: {{ balance.cashBalance }}</li>
+  </ul>
 </div>
+
 </body>
 
 
