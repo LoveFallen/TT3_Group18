@@ -1,3 +1,4 @@
+
 {% extends "network/layout.html" %}
 
 {% block body %}
@@ -19,5 +20,29 @@
       </div>
     </div>
 </div>
+<div class="row no-gutters">
+    ><h1>Wallet Balance</h1><br />
+    <!-- split -->
+      <div class="container">
+  <div class="newrow">
+    <div class="col-sm-6" style="background-color:#DCC7AA;">
+        <div class="combine"><div class="assetbalance"></div>
+        <div class="assetinfo">
+            <p>Value:</p>
+            </div></div>
+    </div>
+    <div class="col-sm-6" style="background-color:#DCC7AA;">
+      <div class="combine"><div class="cashbalance"></div>
+        <div class="casginfo">
+            <p>Value:</p>
+            </div></div>
+    </div>
+  </div>
+</div>  
+
+    <!--may auto-add when got multiple pets -->
+</div>
+</body>
+
 
 {% endblock %}
