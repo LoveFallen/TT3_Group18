@@ -1,0 +1,38 @@
+{% extends "network/layout.html" %}
+
+{% block body %}
+<head>
+    <title>Asset</title>  
+</head>
+<body>
+<div class="row">
+    <centre><h1>Asset</h1></centre>
+    <div class="Asset">
+        <p>Asset Symbol: {{ asset.assetSymbol }}</p>
+        <p>Asset Price: {{ asset.assetPrice }</p>
+        <p>Time Stamp: {{ asset.timestamp }</p>
+    </centre>
+    <br />
+</div>
+<br>
+{% for asset in assets %}
+<div class="newrow">
+<centre><h1>Asset History</h1></centre>
+  <div class="col-sm-6" style="background-color:#DCC7AA;">
+      <table style="width:100%">
+          <tr>
+              <th>Time Stamp: {{ historical.timestamp }}</th>
+              <th>Asset Symbol: {{ historical.assetSymbol }}</th>
+              <th>Asset Price: {{ historical.assetPrice }}</th>
+          </tr>
+      </table>
+      </div></div>
+  </div>
+</div>
+{% endfor %} 
+
+
+</div>
+</body>
+
+{% endblock %}

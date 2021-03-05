@@ -1,8 +1,11 @@
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
+
+import requests as r
+import json
 
 from .models import User
 
@@ -36,28 +39,106 @@ def logout_view(request):
     return HttpResponseRedirect(reverse("index"))
 
 
-def register(request):
-    if request.method == "POST":
-        username = request.POST["username"]
-        email = request.POST["email"]
+def asset(request):
+    myAccount = User.objects.get(username=request.user)
 
-        # Ensure password matches confirmation
-        password = request.POST["password"]
-        confirmation = request.POST["confirmation"]
-        if password != confirmation:
-            return render(request, "network/register.html", {
-                "message": "Passwords must match."
-            })
+    # API Function
+    transaction_url = 'https://849rs099m3.execute-api.ap-southeast-1.amazonaws.com/techtrek/historical'
+    headers = {
+        'x-api-key': 'rcqYXzQ9PY1rQtUNJB9X56JOvnQWnf27S09nX8Rh',
+        'Content-Type': 'application/json',
+    }
+    
+    data = json.loads(r.post(transaction_url, headers=headers, json = payload).content)
+    
+    return render(request, "network/historical_pricing.html",{
+        'historical_price': data,
+        'user': myAccount,
+    })
 
-        # Attempt to create new user
-        try:
-            user = User.objects.create_user(username, email, password)
-            user.save()
-        except IntegrityError:
-            return render(request, "network/register.html", {
-                "message": "Username already taken."
-            })
-        login(request, user)
-        return HttpResponseRedirect(reverse("index"))
-    else:
-        return render(request, "network/register.html")
+
+def transaction(request):
+
+    myAccount = User.objects.get(username=request.user)
+
+    # API Function
+    transaction_url = 'https://849rs099m3.execute-api.ap-southeast-1.amazonaws.com/techtrek/transactions/view'
+    headers = {
+        'x-api-key': 'rcqYXzQ9PY1rQtUNJB9X56JOvnQWnf27S09nX8Rh',
+        'Content-Type': 'application/json',
+    }
+    payload = {
+        'accountKey': myAccount.accountKey
+    }
+
+    data = json.loads(
+        r.post(transaction_url, headers=headers, json=payload).content)
+
+    return render(request, "network/transaction_history.html", {
+        'assets': data,
+        'user': myAccount,
+    })
+
+
+def accKey(request):
+    myAccount = User.objects.get(username=request.user)
+
+    return JsonResponse({
+        'accountKey': myAccount.accountKey
+    })
+
+
+def profile(request):
+    myAccount = User.objects.get(username=request.user)
+
+    asset_url = 'https://849rs099m3.execute-api.ap-southeast-1.amazonaws.com/techtrek/balance'
+    headers = {
+        'x-api-key': 'rcqYXzQ9PY1rQtUNJB9X56JOvnQWnf27S09nX8Rh',
+        'Content-Type': 'application/json',
+    }
+    payload = {
+        'accountKey': "a84a59b3-7023-4ffa-a0d6-e8c34478a06a",
+    }
+
+    balance = json.loads(r.post(asset_url, headers=headers, json=payload).content)
+    # keys:
+    # - assetBalance
+    # - cashBalance
+
+    return render(request, "network/profile.html", {
+        'user': myAccount,
+        'balance': balance,
+    })
+    
+
+
+def buy(request):
+    myAccount = User.objects.get(username=request.user)
+    
+    history_url = 'https://849rs099m3.execute-api.ap-southeast-1.amazonaws.com/techtrek/pricing/historical'
+    headers = {
+        'x-api-key': 'rcqYXzQ9PY1rQtUNJB9X56JOvnQWnf27S09nX8Rh',
+        'Content-Type': 'application/json',
+    }
+    
+    lastPrice = json.loads(r.post(history_url, headers=headers).content)[0]['price']
+
+    return render(request, "network/buy_asset.html",{
+        'lastPrice': lastPrice
+    })
+
+
+def sell(request):
+    myAccount = User.objects.get(username=request.user)
+    
+    history_url = 'https://849rs099m3.execute-api.ap-southeast-1.amazonaws.com/techtrek/pricing/historical'
+    headers = {
+        'x-api-key': 'rcqYXzQ9PY1rQtUNJB9X56JOvnQWnf27S09nX8Rh',
+        'Content-Type': 'application/json',
+    }
+    
+    lastPrice = json.loads(r.post(history_url, headers=headers).content)[0]['price']
+    
+    return render(request, "network/sell_asset.html",{
+        'lastPrice': lastPrice
+    })
