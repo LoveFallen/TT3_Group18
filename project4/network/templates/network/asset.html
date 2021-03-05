@@ -8,26 +8,28 @@
 <div class="row">
     <centre><h1>Asset</h1></centre>
     <div class="Asset">
-        <p>assetSymbol</p>
-        <p>price</p>
-        <p>timestamp</p>
+        <p>Asset Symbol: {{ asset.assetSymbol }}</p>
+        <p>Asset Price: {{ asset.assetPrice }</p>
+        <p>Time Stamp: {{ asset.timestamp }</p>
     </centre>
     <br />
 </div>
 <br>
-<div class="row">
-    <centre><h1>Asset History</h1></centre><br />
-      <div class="container">
-  <div class="newrow">
-    <div class="col-sm-6" style="background-color:#DCC7AA;">
-        <div class="AssetHistory">
-            <p>assetSymbol</p>
-            <p>price</p>
-            <p>timestamp</p>
-            </div></div>
-    </div>
+{% for asset in assets %}
+<div class="newrow">
+<centre><h1>Asset History</h1></centre>
+  <div class="col-sm-6" style="background-color:#DCC7AA;">
+      <table style="width:100%">
+          <tr>
+              <th>Time Stamp: {{ historical.timestamp }}</th>
+              <th>Asset Symbol: {{ historical.assetSymbol }}</th>
+              <th>Asset Price: {{ historical.assetPrice }}</th>
+          </tr>
+      </table>
+      </div></div>
   </div>
-</div>  
+</div>
+{% endfor %} 
 
 
 </div>
