@@ -5,40 +5,35 @@
     <title>View transaction</title>  
 </head>
 <body>
-<div class="row">
-    <centre><h1>Profile</h1></centre>
-    <centre class="bidder"><div class="profile">
-    <div class="info">
-        <p>Name: {{ user.username }} </p>
-    </centre>
-    <br />
-</div>
-<br>
-<div class="row">
-    <centre><h1>History</h1></centre><br />
-      <div class="container">
 
-  {% for asset in assets %}
-  <div class="newrow">
-    <div class="col-sm-6" style="background-color:#DCC7AA;">
-        <div class="combine"><div class="transactionhistory"></div>
-        <div class="transaction">
-        <table style="width:100%">
-            <tr>
-                <th>Transaction ID: {{ asset.transactionId }}</th>
-                <th>Order Type: {{ asset.orderType }}</th>
-                <th>Time Stamp: {{ asset.timestamp }}</th>
-                <th>Asset Symbol: {{ asset.assetSymbol }}</th>
-                <th>Asset Amount: {{ asset.assetAmount }}</th>
-                <th>Asset Price: {{ asset.assetPrice }}</th>
-                <th>Cash Amount: {{ asset.cashAmount }}</th>
-            </tr>
-        </table>
-        </div></div>
-    </div>
-  </div>
-  {% endfor %}
+<h1>History</h1><br />
 
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Transaction ID</th>
+        <th scope="col">Order Type</th>
+        <th scope="col">Time Stamp</th>
+        <th scope="col">Asset Symbol</th>
+        <th scope="col">Asset Amount</th>
+        <th scope="col">Asset Price</th>
+        <th scope="col">Cash Amount</th>
+    </thead>
+    <tbody>
+        {% for asset in assets %}
+      <tr>
+        <th scope="row">{{ asset.transactionId }}</th>
+        <td>{{ asset.orderType }}</td>
+        <td>{{ asset.timestamp }}</td>
+        <td>{{ asset.assetSymbol }}</td>
+        <td>{{ asset.assetAmount }}</td>
+        <td>{{ asset.assetPrice }}</td>
+        <td>{{ asset.cashAmount }}</td>
+      </tr>
+      {% endfor %}
+
+    </tbody>
+  </table>
 
 {% endblock %}
 
