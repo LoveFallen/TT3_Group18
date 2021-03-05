@@ -35,6 +35,25 @@ def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse("index"))
 
+def getHistoricalData(request):
+    accountKey = User.objects.GET["username"=asd]
+
+    transaction_url = 'https://849rs099m3.execute-api.ap-southeast-1.amazonaws.com/techtrek/transactions/view'
+
+    headers = {
+        'x-api-key': 'rcqYXzQ9PY1rQtUNJB9X56JOvnQWnf27S09nX8Rh',
+        'Content-Type': 'application/json',
+    }
+    payload={
+        'accountKey': accountKey
+    }
+
+    #data = json.loads(r.post(transaction_url, headers=headers, json = payload).content)
+    data = r.post(transaction_url, headers=headers, json = payload).content
+
+    return render(request, "network/register.html", {
+        "message": data
+    })
 
 def register(request):
     if request.method == "POST":
